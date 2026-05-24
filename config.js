@@ -103,7 +103,7 @@ window.SITE_CONFIG = {
   //  If formspreeId is left empty, clicking Submit opens a mailto: link instead.
   //
   form: {
-    formspreeId: "",   // ← paste your Formspree form ID here e.g. "xbjnkwrz"
+    formspreeId: "xnjrzrlo",   // ← paste your Formspree form ID here e.g. "xbjnkwrz"
     services: [
       "Wedding Website",
       "AI Automation Waitlist",
