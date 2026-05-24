@@ -737,6 +737,169 @@ section {
   color: var(--text-3);
 }
 
+/* ── PRESETS ── */
+#presets {
+  background: linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 50%, var(--bg-0) 100%);
+}
+
+.presets-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
+
+.preset-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+}
+.preset-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(30, 144, 255, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+.preset-card.selected {
+  border-color: rgba(30, 144, 255, 0.6);
+  box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.2), 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+.preset-card.selected .preset-btn {
+  color: var(--blue-bright);
+  border-color: rgba(30, 144, 255, 0.5);
+  background: rgba(30, 144, 255, 0.1);
+}
+
+.preset-preview {
+  height: 116px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 14px;
+}
+
+.pp-num {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  font-family: 'Space Grotesk', sans-serif;
+  opacity: 0.5;
+  letter-spacing: 0.5px;
+}
+
+.pp-couple {
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  font-family: Georgia, serif;
+}
+
+.pp-divider {
+  width: 28px;
+  height: 1px;
+  opacity: 0.7;
+}
+
+.pp-date {
+  font-size: 0.58rem;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+}
+
+.pp-style-badge {
+  position: absolute;
+  bottom: 7px;
+  left: 7px;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 2px 7px;
+  border-radius: 100px;
+  backdrop-filter: blur(6px);
+}
+
+.preset-body {
+  padding: 12px 14px 14px;
+}
+
+.preset-palette {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 9px;
+}
+
+.pp-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.preset-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 5px;
+  line-height: 1.2;
+}
+
+.preset-vibe {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.preset-season {
+  font-size: 0.67rem;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+
+.preset-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-2);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 500;
+  padding: 7px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  text-align: left;
+}
+.preset-btn:hover {
+  color: var(--white);
+  border-color: rgba(30, 144, 255, 0.4);
+  background: rgba(30, 144, 255, 0.08);
+}
+
+@media (max-width: 1100px) {
+  .presets-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 768px) {
+  .presets-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+}
+@media (max-width: 480px) {
+  .presets-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+
 /* ── TRUST (REVIEWS) ── */
 #trust {
   background: linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
