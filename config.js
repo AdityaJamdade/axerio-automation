@@ -10,11 +10,21 @@ window.SITE_CONFIG = {
   // ── COMPANY & CONTACT ─────────────────────────────────────────────
   company: {
     name:      "Axerio Automation",
-    email:     "hello@axerioautomation.com",     // ← your business email
-    whatsapp:  "https://wa.me/91XXXXXXXXXX",      // ← replace with your number e.g. wa.me/919876543210
-    instagram: "https://www.instagram.com/axerioautomation",
-    linkedin:  "https://linkedin.com/company/axerioautomation",
-    logo:      "assets/logo.svg",                 // logo file (svg or png)
+    email:     "phase-one@axerioautomation.com",           // ← your business email
+    instagram: "https://www.instagram.com/axerioautomation/",
+    twitter:   "https://x.com/axerio1",
+    linkedin:  "https://www.linkedin.com/in/axerio-automation-567118411/",
+    youtube:   "https://www.youtube.com/@axerioautomation",     // ← paste your YouTube channel URL
+    logo:      "assets/logo.svg",                        // logo file (svg or png)
+  },
+
+  // ── URLS ──────────────────────────────────────────────────────────
+  //  Both URLs below point to the same site content.
+  //  The CNAME file makes axerioautomation.com the primary domain.
+  //  The GitHub Pages URL continues to work as a fallback automatically.
+  urls: {
+    primary:  "https://axerioautomation.com",
+    github:   "https://adityajamdade.github.io/axerio-automation/",
   },
 
   // ── SEO / META TAGS ───────────────────────────────────────────────
