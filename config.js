@@ -29,17 +29,19 @@ window.SITE_CONFIG = {
 
   // ── SEO / META TAGS ───────────────────────────────────────────────
   seo: {
-    title:       "Axerio Automation — AI-Powered Digital Experiences",
-    description: "Axerio Automation builds AI-powered digital experiences — from stunning wedding websites to full-scale business automation platforms.",
+    title:       "Axerio Automation — AI Automation Platform & Digital Experiences",
+    description: "Axerio Automation builds AI-powered automation platforms and digital experiences with fast delivery, secure hosting, and tailored business workflows.",
     url:         "https://axerioautomation.com",
+    image:       "https://axerioautomation.com/assets/logo-3.0-zoomed-in-removebg.png",
+    twitterHandle: "@axerio1",
   },
 
   // ── HERO SECTION ──────────────────────────────────────────────────
   hero: {
-    badge:      "Launching Phase 1 — AI Wedding Websites",
+    badge:      "Launching Phase 1 — AI Automation Services",
     titleLine1: "Intelligence That",
     titleLine2: "Builds Your World",
-    subtitle:   "Axerio Automation crafts AI-powered digital experiences — starting with breathtaking wedding websites, evolving into a full-scale business automation platform.",
+    subtitle:   "Axerio Automation crafts AI-powered automation solutions and digital experiences — built for fast delivery, strong security, and business growth.",
   },
 
   // ── STATS BAR ─────────────────────────────────────────────────────
@@ -79,16 +81,16 @@ window.SITE_CONFIG = {
   //  {
   //    quote:   "What the client said about working with you.",
   //    name:    "Client Name",
-  //    role:    "Context e.g. Wedding in Mumbai, 2026",
+  //    role:    "Context e.g. Product Launch in Mumbai, 2026",
   //    initial: "C",   ← first letter for the avatar circle
   //  }
   //
   testimonials: [
     // Example — uncomment and fill with real reviews when you have them:
     // {
-    //   quote:   "The website Axerio built for our wedding was absolutely breathtaking.",
+    //   quote:   "The automation project Axerio delivered transformed our business.",
     //   name:    "Priya & Rohan",
-    //   role:    "Wedding in Mumbai, 2026",
+    //   role:    "Product Launch in Mumbai, 2026",
     //   initial: "P",
     // },
   ],
@@ -105,7 +107,7 @@ window.SITE_CONFIG = {
   form: {
     formspreeId: "xnjrzrlo",   // ← paste your Formspree form ID here e.g. "xbjnkwrz"
     services: [
-      "Wedding Website",
+      "AI Automation Solution",
       "AI Automation Waitlist",
       "AI Video Marketing",
       "Business Chatbot",
