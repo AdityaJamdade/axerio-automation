@@ -38,10 +38,10 @@ window.SITE_CONFIG = {
 
   // ── HERO SECTION ──────────────────────────────────────────────────
   hero: {
-    badge:      "Launching Phase 1 — AI Automation Services",
+    badge:      "Launching Phase 1 — Wedding Websites",
     titleLine1: "Intelligence That",
     titleLine2: "Builds Your World",
-    subtitle:   "Axerio Automation crafts AI-powered automation solutions and digital experiences — built for fast delivery, strong security, and business growth.",
+    subtitle:   "Axerio Automation creates stunning, AI-crafted wedding websites — delivered in 48 hours, live on your custom domain, and designed to tell your unique love story.",
   },
 
   // ── STATS BAR ─────────────────────────────────────────────────────
@@ -107,8 +107,8 @@ window.SITE_CONFIG = {
   form: {
     formspreeId: "xnjrzrlo",   // ← paste your Formspree form ID here e.g. "xbjnkwrz"
     services: [
-      "AI Automation Solution",
-      "AI Automation Waitlist",
+      "Wedding Website (Phase 1)",
+      "AI Automation Services (Phase 2 — Waitlist)",
       "AI Video Marketing",
       "Business Chatbot",
       "Something Else",

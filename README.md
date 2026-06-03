@@ -12,19 +12,40 @@ Both URLs below serve the same site:
 
 ```
 axerio-deploy/
-├── index.html       ← The single-page site (don't edit directly)
-├── config.js        ← Edit THIS to update all content, links, and settings
+├── index.html          ← Main landing page (no inline scripts)
+├── presets.html        ← Template selector page (Phase 1 user flow)
+├── robots.txt          ← Search engine crawl rules
+├── sitemap.xml         ← Sitemap for SEO
+├── CNAME               ← Tells GitHub Pages to serve axerioautomation.com
 ├── assets/
-│   └── logo.svg     ← Brand logo (SVG, silver + blue Axerio mark)
-├── CNAME            ← Tells GitHub Pages to serve axerioautomation.com
-└── .gitignore
+│   ├── logo.svg        ← Brand logo (SVG, silver + blue Axerio mark)
+│   └── logo-3.0-zoomed-in-removebg.png  ← Favicon / OG image
+├── css/
+│   └── main.css        ← All styles for index.html
+├── js/
+│   ├── config.js       ← Edit THIS to update all content, links, and settings
+│   ├── main.js         ← Runtime logic for index.html
+│   └── presets.js      ← Runtime logic for presets.html (preset data + filtering)
+└── legal/
+    ├── privacy-policy.html
+    ├── terms-of-service.html
+    ├── cookie-policy.html
+    └── refund-policy.html
 ```
+
+**Only ever edit `js/config.js`** to update site content, links, and settings.
+
+### Phase 1 — Wedding Websites (Live)
+User flow: `index.html` → `presets.html` (choose style) → `index.html#contact` (form pre-filled with chosen preset).
+
+### Phase 2 — AI Automation Services (Coming Soon)
+Full-suite AI platform for businesses: chatbots, lead automation, video marketing, and intelligent workflow management.
 
 ---
 
 ## Making updates
 
-**Only ever edit `config.js`** — it controls all text, links, social handles, form settings, and reviews. After saving:
+**Only ever edit `js/config.js`** — it controls all text, links, social handles, form settings, and reviews. After saving:
 
 ```bash
 git add .
@@ -38,7 +59,7 @@ GitHub Pages auto-deploys on every push to `main`. Changes go live in under 60 s
 
 ## Configuring social links
 
-Open `config.js` and fill in the `company` block:
+Open `js/config.js` and fill in the `company` block:
 
 ```js
 company: {
@@ -58,7 +79,7 @@ company: {
 
 1. Go to [formspree.io](https://formspree.io) → sign up free
 2. Click **New Form** → give it a name → copy the form ID (e.g. `xbjnkwrz`)
-3. In `config.js`, set:
+3. In `js/config.js`, set:
    ```js
    form: { formspreeId: "xbjnkwrz", ... }
    ```
@@ -70,7 +91,7 @@ Without a Formspree ID the Submit button falls back to opening the user's email 
 
 ## Adding client reviews
 
-In `config.js`, add entries to the `testimonials` array:
+In `js/config.js`, add entries to the `testimonials` array:
 
 ```js
 testimonials: [
