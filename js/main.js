@@ -180,25 +180,26 @@ function wireForm(C) {
     const btn = form.querySelector('.btn-submit');
     btn.disabled = true; btn.textContent = 'Sending...';
     status.className = ''; status.textContent = '';
-    const data = {
+    const service = form.querySelector('#f-service').value;
+    const payload = {
       name:    form.querySelector('#f-name').value.trim(),
       email:   form.querySelector('#f-email').value.trim(),
-      service: form.querySelector('#f-service').value,
+      subject: 'Enquiry: ' + service,
       message: form.querySelector('#f-message').value.trim(),
     };
-    const fid = C.form && C.form.formspreeId;
-    if (fid) {
+    const base = C.api && C.api.baseUrl;
+    if (base) {
       try {
-        const res = await fetch('https://formspree.io/f/' + fid, {
+        const res = await fetch(base.replace(/\/$/, '') + '/api/wedding/contact', {
           method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
         });
         if (res.ok) { status.className = 'success'; status.textContent = 'Message sent! We will be in touch shortly.'; form.reset(); }
         else throw new Error();
       } catch { status.className = 'error'; status.textContent = 'Something went wrong. Please email us directly.'; }
     } else {
-      const s = encodeURIComponent('Enquiry: ' + data.service);
-      const b = encodeURIComponent('Name: ' + data.name + '\nEmail: ' + data.email + '\nService: ' + data.service + '\n\n' + data.message);
+      const s = encodeURIComponent('Enquiry: ' + service);
+      const b = encodeURIComponent('Name: ' + payload.name + '\nEmail: ' + payload.email + '\nService: ' + service + '\n\n' + payload.message);
       window.location.href = 'mailto:' + C.company.email + '?subject=' + s + '&body=' + b;
     }
     btn.disabled = false; btn.textContent = 'Send Message \u2736';

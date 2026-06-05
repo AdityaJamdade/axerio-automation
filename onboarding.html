@@ -207,17 +207,18 @@
 
   <div class="ob-actions">
     <button class="ob-submit" type="submit">Submit my details →</button>
-    <p class="ob-disclaimer">This is a preview of the onboarding flow — submissions aren't wired to the backend yet.</p>
+    <p class="ob-disclaimer">Your details are sent securely to our team to start building your site.</p>
   </div>
 </form>
 
 <!-- success state -->
 <div class="ob-done ob-wrap" id="ob-done">
   <h2>Got it — thank you! 🥂</h2>
-  <p>This is where the onboarding form will hand off to our backend. For now, your selections were captured in the page (open the console to see the payload). Next step: wiring this to email + the sites API.</p>
+  <p>Your details are in - we have everything we need to start. Our team will review them and reach out shortly with the next steps for your website.</p>
 </div>
 
 <!-- shared data: PRESETS + TIERS -->
+<script src="js/config.js"></script>
 <script src="js/presets.js"></script>
 <script>
   (function () {
@@ -263,15 +264,47 @@
 
     // scaffold submit
     var form = document.getElementById('ob-form');
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      var data = Object.fromEntries(new FormData(form).entries());
-      data.__tier = tierId; data.__preset = presetId;
-      console.log('[Axerio onboarding] captured payload:', data);
-      form.style.display = 'none';
-      document.querySelector('.ob-head').style.display = 'none';
-      var done = document.getElementById('ob-done'); done.classList.add('show');
-      done.scrollIntoView({ behavior: 'smooth' });
+      var fd = Object.fromEntries(new FormData(form).entries());
+      var submitBtn = form.querySelector('.ob-submit');
+      var payload = {
+        tier:       tierId || '',
+        preset:     presetId || '',
+        presetName: presetName || '',
+        style:      preset ? preset.style : (params.get('style') || ''),
+        price:      price || '',
+        names:      (fd.names || '').trim(),
+        rsvpEmail:  (fd.rsvpEmail || '').trim(),
+        date:       fd.date || '',
+        details:    fd,
+      };
+      if (!payload.names) { alert('Please enter your full names before submitting.'); return; }
+
+      function showDone() {
+        form.style.display = 'none';
+        document.querySelector('.ob-head').style.display = 'none';
+        var done = document.getElementById('ob-done'); done.classList.add('show');
+        done.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      var base = (window.SITE_CONFIG && window.SITE_CONFIG.api && window.SITE_CONFIG.api.baseUrl) || '';
+      if (!base) { console.log('[Axerio onboarding] captured payload:', payload); showDone(); return; }
+
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
+      try {
+        var res = await fetch(base.replace(/\/$/, '') + '/api/wedding/onboarding', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error('status ' + res.status);
+        showDone();
+      } catch (err) {
+        console.error('[Axerio onboarding] submit failed:', err);
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit my details \u2192'; }
+        alert('Sorry - something went wrong submitting your details. Please try again, or email us directly.');
+      }
     });
   })();
 </script>

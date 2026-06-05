@@ -27,6 +27,23 @@ window.SITE_CONFIG = {
     github:   "https://adityajamdade.github.io/axerio-automation/",
   },
 
+  // ── BACKEND API ───────────────────────────────────────────────────
+  //  The platform-backend (Render) that stores onboarding intakes and
+  //  contact enquiries in MongoDB. If your Render service has a different
+  //  URL, change baseUrl below — that's the only edit needed.
+  api: {
+    //  Two backends: one for local dev, one for production. The page picks
+    //  the right one automatically based on the host it's served from, so
+    //  you never have to swap this by hand. Edit the URLs, not the logic.
+    local:      "http://localhost:4000",                 // backend when running locally (npm start in backend-server)
+    production: "https://platform-backend.onrender.com", // your deployed Render backend URL
+    get baseUrl() {
+      var h = (typeof location !== "undefined") ? location.hostname : "";
+      var isLocal = (h === "localhost" || h === "127.0.0.1" || h === "");
+      return isLocal ? this.local : this.production;
+    },
+  },
+
   // ── SEO / META TAGS ───────────────────────────────────────────────
   seo: {
     title:       "Axerio Automation — AI Automation Platform & Digital Experiences",
