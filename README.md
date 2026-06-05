@@ -13,7 +13,8 @@ Both URLs below serve the same site:
 ```
 axerio-deploy/
 ├── index.html          ← Main landing page (no inline scripts)
-├── presets.html        ← Template selector page (Phase 1 user flow)
+├── presets.html        ← Preview builder: tiers, pricing, presets + live preview
+├── onboarding.html     ← Details form, pre-filled with chosen tier + preset
 ├── robots.txt          ← Search engine crawl rules
 ├── sitemap.xml         ← Sitemap for SEO
 ├── CNAME               ← Tells GitHub Pages to serve axerioautomation.com
@@ -25,7 +26,7 @@ axerio-deploy/
 ├── js/
 │   ├── config.js       ← Edit THIS to update all content, links, and settings
 │   ├── main.js         ← Runtime logic for index.html
-│   └── presets.js      ← Runtime logic for presets.html (preset data + filtering)
+│   └── presets.js      ← Tier + preset data and logic for presets.html (also supplies data to onboarding.html)
 └── legal/
     ├── privacy-policy.html
     ├── terms-of-service.html
@@ -36,7 +37,11 @@ axerio-deploy/
 **Only ever edit `js/config.js`** to update site content, links, and settings.
 
 ### Phase 1 — Wedding Websites (Live)
-User flow: `index.html` → `presets.html` (choose style) → `index.html#contact` (form pre-filled with chosen preset).
+User flow: `index.html` → `presets.html` (choose a tier, compare pricing, preview a preset) → `onboarding.html` (details form, pre-filled with the chosen tier + preset via `?tier=…&preset=…`).
+
+`presets.html` shows all four tiers (Essential $397, Signature $697, Prestige $1,197, Elite $2,497) with their feature sets and the presets available to each (20 standard, +7 Prestige-exclusive, 4 Elite cinematic). Selecting a preset opens a styled mock-up rendered in that preset's real colours; **Proceed** carries the selection into `onboarding.html`. Tier/preset/pricing data lives in the `TIERS` and `PRESETS` arrays at the top of `js/presets.js` — edit there.
+
+> The onboarding form is a scaffold: fields mirror the intake questionnaire and show/hide by tier, but submissions aren't wired to the backend yet (that's the next step).
 
 ### Phase 2 — AI Automation Services (Coming Soon)
 Full-suite AI platform for businesses: chatbots, lead automation, video marketing, and intelligent workflow management.

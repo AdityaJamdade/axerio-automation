@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Details — Axerio Automation</title>
+  <meta name="description" content="Tell us about your wedding so we can build your website. Pre-filled with your chosen tier and preset." />
+  <meta name="robots" content="noindex" />
+
+  <link rel="icon" type="image/x-icon" href="./assets/logo-3.0-zoomed-in-removebg.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="./css/presets.css" />
+  <style>
+    .ob-wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    .ob-page { background: var(--bg); padding-bottom: 80px; }
+
+    /* summary banner */
+    .ob-summary {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--dark); color: #EAF2FB;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+    }
+    .ob-summary-inner {
+      max-width: 860px; margin: 0 auto; padding: 16px 24px;
+      display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    }
+    .ob-swatch-strip { display: flex; width: 72px; height: 44px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.3); flex-shrink: 0; }
+    .ob-swatch-strip span { flex: 1; }
+    .ob-summary-text { display: flex; flex-direction: column; gap: 2px; }
+    .ob-summary-text .lbl { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--copper); }
+    .ob-summary-text .val { font-family: "Space Grotesk", sans-serif; font-size: 17px; font-weight: 600; }
+    .ob-summary-text .val em { font-style: normal; color: #9FD4FF; }
+    .ob-summary-price { margin-left: auto; text-align: right; }
+    .ob-summary-price small { display: block; font-size: 10px; color: #9FB6D0; text-transform: uppercase; letter-spacing: .05em; }
+    .ob-summary-price b { font-family: "Space Grotesk", sans-serif; font-size: 22px; color: #fff; }
+    .ob-change { font-size: 12px; color: #9FD4FF; text-decoration: none; border: 1px solid rgba(159,212,255,0.4); border-radius: 999px; padding: 6px 14px; }
+    .ob-change:hover { background: rgba(159,212,255,0.12); }
+
+    .ob-head { padding: 48px 0 8px; text-align: center; }
+    .ob-head h1 { font-family: "Space Grotesk", sans-serif; font-size: clamp(26px,4vw,38px); font-weight: 600; color: var(--text-1); margin: 0 0 10px; }
+    .ob-head p { color: var(--text-2); max-width: 560px; margin: 0 auto; }
+
+    /* form blocks */
+    .ob-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px 26px 8px; margin-top: 22px; box-shadow: var(--shadow-sm); }
+    .ob-block.is-hidden { display: none; }
+    .ob-block-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 18px; }
+    .ob-block-head h2 { font-family: "Space Grotesk", sans-serif; font-size: 19px; font-weight: 600; color: var(--text-1); margin: 0; }
+    .ob-tier-tag { font-size: 11px; color: var(--terra); background: var(--terra-soft); border: 1px solid var(--terra-border); border-radius: 999px; padding: 2px 9px; }
+
+    .ob-field { margin-bottom: 18px; }
+    .ob-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .ob-field label { display: block; font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 6px; }
+    .ob-field label .req { color: #C0392B; }
+    .ob-field .hint { font-size: 12px; color: var(--text-3); margin: 0 0 8px; font-weight: 400; }
+    .ob-field input, .ob-field textarea, .ob-field select {
+      width: 100%; font-family: inherit; font-size: 14px; color: var(--text-1);
+      background: var(--bg); border: 1px solid var(--border-med); border-radius: 10px;
+      padding: 11px 13px; transition: border-color .15s, box-shadow .15s;
+    }
+    .ob-field input:focus, .ob-field textarea:focus, .ob-field select:focus {
+      outline: none; border-color: var(--terra); box-shadow: 0 0 0 3px var(--terra-soft);
+    }
+    .ob-field textarea { resize: vertical; min-height: 84px; }
+    .ob-field input[readonly] { background: var(--bg-alt); color: var(--text-2); cursor: not-allowed; }
+
+    .ob-actions { margin-top: 26px; text-align: center; }
+    .ob-submit {
+      cursor: pointer; font-family: "Space Grotesk", sans-serif; font-size: 16px; font-weight: 600; color: #fff;
+      border: none; border-radius: 12px; padding: 16px 44px; box-shadow: var(--shadow-md);
+      background: linear-gradient(120deg, var(--terra), var(--burgundy)); transition: transform .15s, box-shadow .2s;
+    }
+    .ob-submit:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .ob-disclaimer { font-size: 12px; color: var(--text-3); margin-top: 14px; }
+
+    .ob-done { display: none; text-align: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px 26px; margin-top: 22px; box-shadow: var(--shadow-sm); }
+    .ob-done.show { display: block; }
+    .ob-done h2 { font-family: "Space Grotesk", sans-serif; color: var(--text-1); margin: 0 0 8px; }
+    .ob-done p { color: var(--text-2); margin: 0 auto; max-width: 520px; }
+
+    @media (max-width: 620px) { .ob-row { grid-template-columns: 1fr; } .ob-summary-price { margin-left: 0; } }
+  </style>
+</head>
+
+<body class="ob-page">
+
+<!-- TIER + PRESET SUMMARY (pre-filled from previous page) -->
+<div class="ob-summary">
+  <div class="ob-summary-inner">
+    <div class="ob-swatch-strip" id="ob-swatch"></div>
+    <div class="ob-summary-text">
+      <span class="lbl">Your configuration</span>
+      <span class="val"><span id="ob-tier">—</span> · <em id="ob-preset">—</em></span>
+    </div>
+    <div class="ob-summary-price">
+      <small>Starting from</small>
+      <b id="ob-price">—</b>
+    </div>
+    <a class="ob-change" href="presets.html">Change ↺</a>
+  </div>
+</div>
+
+<header class="ob-head ob-wrap">
+  <h1>Tell us about your wedding</h1>
+  <p>You've picked the look — now the details. Fill in what you can; anything that doesn't apply to your plan is hidden automatically. Nothing here is final.</p>
+</header>
+
+<form class="ob-wrap" id="ob-form" novalidate>
+
+  <!-- 1 · Basics -->
+  <div class="ob-block">
+    <div class="ob-block-head"><h2>The basics</h2></div>
+    <div class="ob-row">
+      <div class="ob-field"><label>Full names <span class="req">*</span><p class="hint">As they should appear, e.g. "Ava &amp; Liam"</p></label><input name="names" required placeholder="Ava & Liam" /></div>
+      <div class="ob-field"><label>Wedding date <span class="req">*</span></label><input name="date" type="date" required /></div>
+    </div>
+    <div class="ob-row">
+      <div class="ob-field"><label>Ceremony time</label><input name="time" placeholder="Ceremony at 3:00 PM" /></div>
+      <div class="ob-field"><label>Dress code</label><input name="dressCode" placeholder="Black tie · Garden party · Smart casual" /></div>
+    </div>
+    <div class="ob-row">
+      <div class="ob-field"><label>Venue name</label><input name="venueName" placeholder="Villa San Crispolto" /></div>
+      <div class="ob-field"><label>RSVP email <span class="req">*</span><p class="hint">Where RSVP submissions are delivered</p></label><input name="rsvpEmail" type="email" required placeholder="you@email.com" /></div>
+    </div>
+    <div class="ob-field"><label>Venue address</label><input name="venueAddress" placeholder="Street, city, country" /></div>
+  </div>
+
+  <!-- 2 · Story -->
+  <div class="ob-block">
+    <div class="ob-block-head"><h2>Your story</h2></div>
+    <div class="ob-field"><label>How did you meet?</label><textarea name="howMet" placeholder="A few sentences is perfect — this appears in the Our Story section."></textarea></div>
+    <div class="ob-field"><label>The proposal <span class="hint" style="display:inline">(optional)</span></label><textarea name="proposal" placeholder="How did it happen?"></textarea></div>
+    <div class="ob-field"><label>Story timeline <span class="hint" style="display:inline">(optional)</span><p class="hint">Key moments, one per line — e.g. "2019 · First met"</p></label><textarea name="timeline" placeholder="2019 · We met&#10;2023 · First trip together&#10;2025 · Engaged"></textarea></div>
+  </div>
+
+  <!-- 3 · Photos & media -->
+  <div class="ob-block">
+    <div class="ob-block-head"><h2>Photos &amp; media</h2></div>
+    <div class="ob-field"><label>Hero photo <span class="hint" style="display:inline">— Google Drive / WeTransfer link</span></label><input name="heroPhoto" placeholder="Paste a share link (landscape, min 1500px wide)" /></div>
+    <div class="ob-field" data-tiers="essential,signature,prestige"><label>Gallery photos <span class="ob-tier-tag">Essential · Signature · Prestige</span></label><input name="gallery" placeholder="Link to your gallery photos" /></div>
+    <div class="ob-field" data-tiers="prestige"><label>Hero video <span class="ob-tier-tag">Prestige</span><p class="hint">YouTube / Vimeo link or MP4, landscape, 720p+</p></label><input name="heroVideo" placeholder="Video link" /></div>
+  </div>
+
+  <!-- 4 · Design preferences -->
+  <div class="ob-block">
+    <div class="ob-block-head"><h2>Design preferences</h2></div>
+    <div class="ob-row">
+      <div class="ob-field"><label>Chosen tier</label><input name="tierLocked" readonly /></div>
+      <div class="ob-field"><label>Chosen preset</label><input name="presetLocked" readonly /></div>
+    </div>
+    <div class="ob-field"><label>Colour palette or theme</label><input name="palette" placeholder="e.g. blush pink &amp; gold, moody navy &amp; burgundy" /></div>
+    <div class="ob-field"><label>Design inspirations <span class="hint" style="display:inline">(optional)</span></label><textarea name="inspiration" placeholder="Pinterest boards, Instagram accounts, links — anything you love"></textarea></div>
+  </div>
+
+  <!-- 5 · RSVP -->
+  <div class="ob-block">
+    <div class="ob-block-head"><h2>RSVP details</h2></div>
+    <div class="ob-row">
+      <div class="ob-field"><label>RSVP deadline</label><input name="rsvpDeadline" placeholder="Please RSVP by 1 May 2026" /></div>
+      <div class="ob-field"><label>Meal options</label><input name="meals" placeholder="Chicken / Fish / Vegetarian" /></div>
+    </div>
+    <div class="ob-field"><label>Special notes for the RSVP form</label><textarea name="rsvpNotes" placeholder="e.g. ask guests about dietary requirements"></textarea></div>
+  </div>
+
+  <!-- 6 · Schedule -->
+  <div class="ob-block" data-tiers="signature,prestige,elite">
+    <div class="ob-block-head"><h2>Day-of schedule</h2><span class="ob-tier-tag">Signature · Prestige · Elite</span></div>
+    <div class="ob-field"><label>Schedule of events<p class="hint">One per line — time, event, location</p></label><textarea name="schedule" placeholder="2:30 PM · Guests arrive&#10;3:00 PM · Ceremony begins&#10;4:00 PM · Cocktail hour&#10;6:00 PM · Reception"></textarea></div>
+  </div>
+
+  <!-- 7 · Registry -->
+  <div class="ob-block" data-tiers="signature,prestige,elite">
+    <div class="ob-block-head"><h2>Gift registry</h2><span class="ob-tier-tag">Signature · Prestige · Elite</span></div>
+    <div class="ob-field"><label>Registry links<p class="hint">Name and URL, one per line</p></label><textarea name="registry" placeholder="Crate & Barrel · https://...&#10;Honeymoon fund · https://..."></textarea></div>
+    <div class="ob-field"><label>Custom registry message <span class="hint" style="display:inline">(optional)</span></label><textarea name="registryMsg" placeholder="Your presence is the greatest gift..."></textarea></div>
+  </div>
+
+  <!-- 8 · Location -->
+  <div class="ob-block" data-tiers="signature,prestige,elite">
+    <div class="ob-block-head"><h2>Location &amp; map</h2><span class="ob-tier-tag">Signature · Prestige · Elite</span></div>
+    <div class="ob-field"><label>Full venue address for the map</label><input name="mapAddress" placeholder="Used to generate the Google Maps embed" /></div>
+    <div class="ob-field"><label>Transport or parking notes <span class="hint" style="display:inline">(optional)</span></label><textarea name="transport" placeholder="Free parking on site · Nearest station 5 min walk"></textarea></div>
+  </div>
+
+  <!-- 9 · Accommodation -->
+  <div class="ob-block" data-tiers="signature,prestige">
+    <div class="ob-block-head"><h2>Accommodation</h2><span class="ob-tier-tag">Signature · Prestige</span></div>
+    <div class="ob-field"><label>Hotel recommendations<p class="hint">Name, star rating, booking link, promo code, notes — one per line</p></label><textarea name="hotels" placeholder="The Grand Hotel · 5★ · https://... · code WED25"></textarea></div>
+    <div class="ob-field"><label>Shuttle / transport details <span class="hint" style="display:inline">(optional)</span></label><textarea name="shuttle" placeholder="Shuttle runs from The Grand at 5:30 PM and 11:30 PM"></textarea></div>
+  </div>
+
+  <!-- 10 · FAQ -->
+  <div class="ob-block" data-tiers="signature,prestige,elite">
+    <div class="ob-block-head"><h2>FAQ</h2><span class="ob-tier-tag">Signature · Prestige · Elite</span></div>
+    <div class="ob-field"><label>Questions &amp; answers<p class="hint">One Q&amp;A per line — "Question? — Answer"</p></label><textarea name="faq" placeholder="Are children welcome? — We love your little ones, but this is an adults-only celebration.&#10;Is there parking? — Yes, free on-site."></textarea></div>
+  </div>
+
+  <!-- 11 · Anything else -->
+  <div class="ob-block">
+    <div class="ob-block-head"><h2>Anything else</h2></div>
+    <div class="ob-field"><label>Anything else you'd like to include?</label><textarea name="extra" placeholder="Anything we haven't covered"></textarea></div>
+    <div class="ob-field"><label>Anything you definitely don't want?</label><textarea name="avoid" placeholder="Things to leave off the site"></textarea></div>
+  </div>
+
+  <div class="ob-actions">
+    <button class="ob-submit" type="submit">Submit my details →</button>
+    <p class="ob-disclaimer">This is a preview of the onboarding flow — submissions aren't wired to the backend yet.</p>
+  </div>
+</form>
+
+<!-- success state -->
+<div class="ob-done ob-wrap" id="ob-done">
+  <h2>Got it — thank you! 🥂</h2>
+  <p>This is where the onboarding form will hand off to our backend. For now, your selections were captured in the page (open the console to see the payload). Next step: wiring this to email + the sites API.</p>
+</div>
+
+<!-- shared data: PRESETS + TIERS -->
+<script src="js/presets.js"></script>
+<script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var tierId   = params.get('tier');
+    var presetId = params.get('preset');
+
+    var tier   = (typeof TIERS !== 'undefined')   ? TIERS.find(function (t) { return t.id === tierId; }) : null;
+    var preset = (typeof PRESETS !== 'undefined') ? PRESETS.find(function (p) { return p.key === presetId; }) : null;
+
+    var tierName   = tier ? tier.name : (params.get('tierName') || '—');
+    var presetName = preset ? preset.name : (params.get('presetName') || '—');
+    var price      = tier ? tier.price : (params.get('price') || '');
+
+    // banner
+    document.getElementById('ob-tier').textContent   = tierName;
+    document.getElementById('ob-preset').textContent = presetName;
+    document.getElementById('ob-price').textContent  = price || '—';
+
+    // locked fields
+    var tl = document.querySelector('[name="tierLocked"]');   if (tl) tl.value = tierName + (price ? '  ·  ' + price : '');
+    var pl = document.querySelector('[name="presetLocked"]'); if (pl) pl.value = presetName + (preset ? '  ·  ' + preset.style : '');
+
+    // swatch preview
+    var sw = document.getElementById('ob-swatch');
+    if (sw && preset) {
+      ['bg','accent','c2','c3','c4'].forEach(function (k) {
+        var s = document.createElement('span'); s.style.background = preset.palette[k]; sw.appendChild(s);
+      });
+    }
+
+    // tier-aware visibility: hide any block/field whose data-tiers excludes this tier
+    if (tierId) {
+      document.querySelectorAll('[data-tiers]').forEach(function (el) {
+        var allowed = el.getAttribute('data-tiers').split(',');
+        if (allowed.indexOf(tierId) === -1) {
+          if (el.classList.contains('ob-block')) el.classList.add('is-hidden');
+          else el.style.display = 'none';
+        }
+      });
+    }
+    document.title = presetName + ' · ' + tierName + ' — Axerio Automation';
+
+    // scaffold submit
+    var form = document.getElementById('ob-form');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = Object.fromEntries(new FormData(form).entries());
+      data.__tier = tierId; data.__preset = presetId;
+      console.log('[Axerio onboarding] captured payload:', data);
+      form.style.display = 'none';
+      document.querySelector('.ob-head').style.display = 'none';
+      var done = document.getElementById('ob-done'); done.classList.add('show');
+      done.scrollIntoView({ behavior: 'smooth' });
+    });
+  })();
+</script>
+</body>
+</html>

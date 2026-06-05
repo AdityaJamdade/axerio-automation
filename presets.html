@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Choose Your Template — Axerio Automation Wedding Websites</title>
+  <meta name="description" content="Browse Axerio Automation's four wedding website tiers — Essential, Signature, Prestige, and Elite — compare pricing, and preview every design preset before you begin." />
+  <link rel="canonical" href="https://axerioautomation.com/presets.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Axerio Automation" />
+  <meta property="og:title" content="Choose Your Wedding Website Template — Axerio Automation" />
+  <meta property="og:description" content="Compare tiers and pricing, then preview every design preset before you start." />
+  <meta property="og:url" content="https://axerioautomation.com/presets.html" />
+  <meta property="og:image" content="https://axerioautomation.com/assets/logo-3.0-zoomed-in-removebg.png" />
+  <meta name="theme-color" content="#0B1220" />
+
+  <link rel="icon" type="image/x-icon" href="./assets/logo-3.0-zoomed-in-removebg.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <script src="js/config.js"></script>
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="./css/presets.css" />
+</head>
+
+<body class="presets-page">
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html#hero">
+    <img id="nav-logo-img" src="assets/logo.svg" alt="Axerio Automation" />
+  </a>
+  <div class="nav-links">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#process">How it Works</a>
+    <a href="presets.html" class="active">Templates</a>
+    <a href="index.html#phases">Roadmap</a>
+    <a href="index.html#contact" class="nav-cta">Get Started</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html#features"  onclick="closeMobile()">Features</a>
+  <a href="index.html#process"   onclick="closeMobile()">How it Works</a>
+  <a href="presets.html"         onclick="closeMobile()">Templates</a>
+  <a href="index.html#phases"    onclick="closeMobile()">Roadmap</a>
+  <a href="index.html#contact"   onclick="closeMobile()" class="nav-cta">Get Started</a>
+</div>
+
+<!-- HEADER -->
+<header class="pb-header">
+  <div class="pb-header-inner">
+    <span class="pb-eyebrow">Phase 1 · Wedding Websites</span>
+    <h1 class="pb-title">Build Your Wedding Website</h1>
+    <p class="pb-sub">Pick a tier, explore the presets, and preview the look — live, before you commit. When something feels right, proceed and we'll carry your choice straight into a quick details form.</p>
+    <div class="pb-steps">
+      <span><b>1</b> Choose a tier</span>
+      <span><b>2</b> Preview a preset</span>
+      <span><b>3</b> Fill your details</span>
+    </div>
+  </div>
+</header>
+
+<!-- TIER SELECTOR -->
+<section class="pb-section">
+  <div class="pb-wrap">
+    <h2 class="pb-h2">1 — Choose your tier</h2>
+    <p class="pb-h2-sub">Four tiers, four price points. Every tier unlocks its own set of presets.</p>
+    <div class="tier-cards" id="tier-cards"><!-- JS --></div>
+    <div class="tier-detail" id="tier-detail"><!-- JS --></div>
+  </div>
+</section>
+
+<!-- PRESET GALLERY -->
+<section class="pb-section pb-section-alt" id="gallery-section">
+  <div class="pb-wrap">
+    <h2 class="pb-h2">2 — Pick a preset</h2>
+    <p class="pb-h2-sub">Each preset is a complete, hand-tuned look. Filter by style, then preview it as a live mock-up.</p>
+    <div class="filter-bar">
+      <div class="filter-wrap" id="filter-wrap"><!-- JS --></div>
+      <span class="count-bar" id="count-bar"></span>
+    </div>
+    <div class="presets-grid" id="presets-grid"><!-- JS --></div>
+  </div>
+</section>
+
+<!-- PREVIEW MODAL -->
+<div class="preview-modal" id="preview-modal" aria-hidden="true">
+  <div class="preview-dialog" role="dialog" aria-modal="true" aria-label="Preset preview">
+    <button class="preview-close" data-close aria-label="Close preview">×</button>
+    <div class="preview-body" id="preview-body"><!-- JS --></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span id="footer-year"></span> Axerio Automation. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="legal/privacy-policy.html">Privacy</a>
+        <a href="legal/terms-of-service.html">Terms</a>
+        <a href="legal/refund-policy.html">Refunds</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/presets.js"></script>
+<script>
+  // minimal mobile-menu toggle (presets page is standalone)
+  (function () {
+    var h = document.getElementById('hamburger');
+    var m = document.getElementById('mobile-menu');
+    if (h && m) h.addEventListener('click', function () { m.classList.toggle('open'); });
+    window.closeMobile = function () { if (m) m.classList.remove('open'); };
+  })();
+</script>
+</body>
+</html>

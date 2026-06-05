@@ -1,0 +1,164 @@
+/* =============================================================
+   AXERIO — css/animations.css
+   Logo-matched palette: electric blue / steel silver / deep navy
+   ============================================================= */
+
+/* ── HERO LASER SCAN ───────────────────────────────────────────
+   A 1px electric-blue line sweeps down the hero section.
+   Elements appear timed to the laser passing over them.
+   Signature animation — clean, precise, AI-scanning feel.
+   ─────────────────────────────────────────────────────────── */
+@keyframes laserSweep {
+  0%   { top: 60px;   opacity: 0; }
+  4%   { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { top: 100vh;  opacity: 0; }
+}
+
+.hero-laser {
+  position: absolute;
+  left: -10%; right: -10%;
+  top: 60px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent         0%,
+    rgba(91,200,255,.3) 10%,
+    #3BBFFF             30%,
+    #1E90FF             50%,
+    #3BBFFF             70%,
+    rgba(91,200,255,.3) 90%,
+    transparent         100%
+  );
+  box-shadow:
+    0 0  6px 2px rgba(30,144,255,0.45),
+    0 0 20px 4px rgba(59,191,255,0.18);
+  animation: laserSweep 1.5s cubic-bezier(0.22,1,0.36,1) 0.05s forwards;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ── HERO ELEMENT REVEALS ──────────────────────────────────────
+   Each element fades in timed to the laser passing its position.
+   ─────────────────────────────────────────────────────────── */
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+#hero .badge    { opacity: 0; animation: heroReveal 0.5s ease        0.20s forwards; }
+.hero-title     { opacity: 0; animation: heroReveal 0.6s ease        0.36s forwards; }
+.hero-subtitle  { opacity: 0; animation: heroReveal 0.5s ease        0.56s forwards; }
+.hero-actions   { opacity: 0; animation: heroReveal 0.5s ease        0.72s forwards; }
+.hero-card      { opacity: 0; animation: heroReveal 0.7s cubic-bezier(0.22,1,0.36,1) 0.44s forwards; }
+
+/* ── HERO GRADIENT TEXT SHIMMER ────────────────────────────────
+   The "Builds Your World" gradient line slowly cycles colours.
+   ─────────────────────────────────────────────────────────── */
+@keyframes gradientFlow {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    #5BC8FF 0%,
+    #1E90FF 30%,
+    #1565C0 60%,
+    #3BBFFF 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientFlow 5s ease-in-out infinite;
+}
+
+/* ── AMBIENT DRIFTING ORBS (injected by JS) ────────────────────
+   Blue/steel orbs matching logo palette drift slowly in hero.
+   ─────────────────────────────────────────────────────────── */
+@keyframes orbDrift1 {
+  0%   { transform: translate(0,0)      scale(1);    }
+  35%  { transform: translate(55px,38px)  scale(1.08); }
+  70%  { transform: translate(18px,72px)  scale(0.93); }
+  100% { transform: translate(65px,-18px) scale(1.04); }
+}
+@keyframes orbDrift2 {
+  0%   { transform: translate(0,0)       scale(1);    }
+  40%  { transform: translate(-48px,42px) scale(1.11); }
+  100% { transform: translate(-72px,52px) scale(0.97); }
+}
+@keyframes orbDrift3 {
+  0%   { transform: translate(0,0);        }
+  50%  { transform: translate(-45px,-32px); }
+  100% { transform: translate(32px,22px);   }
+}
+.orb-drift-1 { animation: orbDrift1 20s ease-in-out infinite alternate; }
+.orb-drift-2 { animation: orbDrift2 27s ease-in-out infinite alternate; }
+.orb-drift-3 { animation: orbDrift3 16s ease-in-out infinite alternate; }
+
+/* ── FEATURE CARD SHIMMER SWEEP ────────────────────────────────
+   A cool-blue light sweeps left-to-right on hover.
+   ─────────────────────────────────────────────────────────── */
+.feature-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    110deg,
+    transparent           35%,
+    rgba(30,144,255,0.07) 50%,
+    transparent           65%
+  );
+  background-size: 250% 100%;
+  background-position: -100% 0;
+  transition: background-position 0.65s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.feature-card:hover::after { background-position: 150% 0; }
+
+/* ── ACTIVE PHASE CARD ACCENT PULSE ────────────────────────────
+   The blue top bar on the active roadmap card gently pulses.
+   ─────────────────────────────────────────────────────────── */
+@keyframes accentPulse {
+  0%,100% { opacity: 1;   }
+  50%     { opacity: 0.45; }
+}
+.phase-card.active::before { animation: accentPulse 3s ease-in-out infinite; }
+
+/* ── PROCESS STEP BOB ──────────────────────────────────────────
+   Step circles bob upward on hover — subtle, satisfying.
+   ─────────────────────────────────────────────────────────── */
+@keyframes stepBob {
+  0%,100% { transform: translateY(0);    }
+  50%     { transform: translateY(-6px); }
+}
+.process-step:hover .step-number { animation: stepBob 0.45s ease-in-out; }
+
+/* ── STATS SPRING POP (non-numeric values e.g. ∞) ──────────── */
+@keyframes statPop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  65%  { transform: scale(1.15);            }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+/* ── NAV SCROLL DEPTH ──────────────────────────────────────────
+   Nav picks up a blue-tinted shadow after first scroll.
+   ─────────────────────────────────────────────────────────── */
+nav { transition: box-shadow 0.3s ease; }
+nav.scrolled { box-shadow: 0 4px 28px rgba(7,20,40,0.30); }
+
+/* ── REDUCED MOTION ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  #hero .badge, .hero-title, .hero-subtitle, .hero-actions, .hero-card {
+    animation: none !important; opacity: 1 !important;
+  }
+  .hero-laser      { display: none !important; }
+  .gradient-text   { animation: none !important; }
+  .orb-drift-1, .orb-drift-2, .orb-drift-3 { animation: none !important; }
+  .phase-card.active::before { animation: none !important; }
+}
