@@ -43,7 +43,7 @@ User flow: `index.html` → `presets.html` (choose a tier, compare pricing, prev
 
 > The onboarding form is a scaffold: fields mirror the intake questionnaire and show/hide by tier, but submissions aren't wired to the backend yet (that's the next step).
 
-### Phase 2 — AI Automation Services (Coming Soon)
+### Phase 2 — AI Automation Services (Launching now..)
 Full-suite AI platform for businesses: chatbots, lead automation, video marketing, and intelligent workflow management.
 
 ---
