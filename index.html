@@ -65,7 +65,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="js/config.js"></script>
 
   <link rel="stylesheet" href="./css/main.css" />
@@ -73,9 +72,6 @@
 </head>
 
 <body>
-
-<!-- THREE.JS BACKGROUND -->
-<canvas id="bg-canvas"></canvas>
 
 <!-- NAV -->
 <nav>
@@ -105,9 +101,10 @@
 
 <!-- HERO -->
 <section id="hero">
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
   <div class="hero-inner">
     <div class="hero-content">
-      <div class="badge" id="hero-badge">Launching Phase 1 — AI Automation Services</div>
+      <div class="badge" id="hero-badge">Launching Phase 2 — AI Automation Services</div>
       <h1 class="hero-title">
         <span id="hero-line1">Intelligence That</span><br>
         <span class="gradient-text" id="hero-line2">Builds Your World</span>
@@ -406,16 +403,16 @@
   backdrop-filter:blur(12px);
   font-family:'Inter',sans-serif;
 ">
-  <p style="margin:0;font-size:0.83rem;color:#94a3b8;line-height:1.6;flex:1;min-width:200px;">
+  <p style="margin:0;font-size:0.83rem;color:#A39FCE;line-height:1.6;flex:1;min-width:200px;">
     We use cookies to keep the site working and understand how it's used.
-    See our <a href="./legal/cookie-policy.html" style="color:#00d4ff;text-decoration:none;">Cookie Policy</a>
-    and <a href="./legal/privacy-policy.html" style="color:#00d4ff;text-decoration:none;">Privacy Policy</a>.
+    See our <a href="./legal/cookie-policy.html" style="color:#8AB0FF;text-decoration:none;">Cookie Policy</a>
+    and <a href="./legal/privacy-policy.html" style="color:#8AB0FF;text-decoration:none;">Privacy Policy</a>.
   </p>
   <div style="display:flex;gap:10px;flex-shrink:0;">
     <button onclick="cookieDecline()" style="
       background:transparent;
       border:1px solid rgba(255,255,255,0.15);
-      color:#94a3b8;
+      color:#A39FCE;
       font-size:0.8rem;
       font-family:'Inter',sans-serif;
       padding:8px 16px;
@@ -423,11 +420,11 @@
       cursor:pointer;
       transition:all 0.2s;
     " onmouseover="this.style.borderColor='rgba(255,255,255,0.3)';this.style.color='#fff'"
-       onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='#94a3b8'">
+       onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='#A39FCE'">
       Decline
     </button>
     <button onclick="cookieAccept()" style="
-      background:linear-gradient(135deg,#1565c0,#1e90ff);
+      background:linear-gradient(135deg,#3B2FB0,#5B6BFF);
       border:none;
       color:#fff;
       font-size:0.8rem;

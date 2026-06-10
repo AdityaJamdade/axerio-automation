@@ -315,7 +315,7 @@ function openPreview(key) {
   const heroOverlay = isDark ? 'rgba(0,0,0,0.30)' : 'rgba(255,255,255,0.10)';
 
   const sectionPills = t.sections
-    .map(s => `<span class="mk-sec" style="border-color:${pal.accent}66;background:${pal.accent}1f;color:var(--text-1)">${s}</span>`)
+    .map(s => `<span class="mk-sec">${s}</span>`)
     .join('');
 
   const showCountdown = t.id !== 'essential';

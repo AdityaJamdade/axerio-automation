@@ -1,98 +1,172 @@
 // =============================================================
 //  AXERIO AUTOMATION — main.js
-//  Depends on: three.min.js (global THREE) + config.js (SITE_CONFIG)
+//  Depends on: config.js (SITE_CONFIG). Hero background is a lightweight
+//  Canvas2D aurora + neural flow-field animation — no external libraries.
 // =============================================================
 
 // =============================================================
-//  THREE.JS  —  Steel-blue neural network background
+//  HERO BACKGROUND  —  Neural flow-field, enriched (Canvas2D)
+//  Particles stream along a noise flow field across parallax
+//  depth layers, with glowing stream-heads, occasional bright
+//  data-pulses, a soft aurora base and faint twinkling stars —
+//  "intelligence in motion". No libraries. Scoped to #hero;
+//  pauses off-screen / tab hidden. Animates regardless of
+//  reduced-motion; flip the flag to honour it.
 // =============================================================
 (function () {
-  const canvas   = document.getElementById('bg-canvas');
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x000000, 0);
+  const PAUSE_ON_REDUCED_MOTION = false;
 
-  const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
-  camera.position.z = 80;
+  const canvas = document.getElementById('bg-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d', { alpha: true });
+  if (!ctx) return;
 
-  const N = 140;
-  const positions  = new Float32Array(N * 3);
-  const velocities = [];
-  for (let i = 0; i < N; i++) {
-    positions[i*3]   = (Math.random()-0.5)*180;
-    positions[i*3+1] = (Math.random()-0.5)*100;
-    positions[i*3+2] = (Math.random()-0.5)*60;
-    velocities.push(
-      (Math.random()-0.5)*0.04,
-      (Math.random()-0.5)*0.04,
-      (Math.random()-0.5)*0.02
-    );
+  function sprite(size, stops) {
+    const s = document.createElement('canvas');
+    s.width = s.height = size;
+    const c = s.getContext('2d');
+    const g = c.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+    stops.forEach(st => g.addColorStop(st[0], st[1]));
+    c.fillStyle = g; c.fillRect(0, 0, size, size);
+    return s;
   }
+  // soft aurora blobs — gentle, for depth + text legibility
+  const auroraA = sprite(512, [[0,'rgba(70,80,255,0.40)'],[0.45,'rgba(55,55,200,0.16)'],[1,'rgba(40,40,150,0)']]);
+  const auroraB = sprite(512, [[0,'rgba(120,70,230,0.30)'],[0.45,'rgba(90,55,190,0.12)'],[1,'rgba(60,40,150,0)']]);
+  const auroraC = sprite(512, [[0,'rgba(50,120,255,0.28)'],[0.50,'rgba(40,80,210,0.11)'],[1,'rgba(30,60,170,0)']]);
+  const auroraD = sprite(512, [[0,'rgba(95,90,235,0.26)'],[0.50,'rgba(70,65,200,0.10)'],[1,'rgba(50,50,160,0)']]);
+  // glowing stream-heads + bright pulse heads + tiny stars
+  const head    = sprite(48, [[0,'rgba(220,240,255,0.95)'],[0.35,'rgba(120,200,255,0.5)'],[1,'rgba(80,160,255,0)']]);
+  const headHot = sprite(60, [[0,'rgba(255,255,255,0.98)'],[0.30,'rgba(185,225,255,0.6)'],[1,'rgba(120,190,255,0)']]);
+  const starS   = sprite(16, [[0,'rgba(255,255,255,0.9)'],[0.5,'rgba(175,210,255,0.4)'],[1,'rgba(175,210,255,0)']]);
 
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  // Steel blue particles matching logo
-  const mat = new THREE.PointsMaterial({ color: 0x8AAFC8, size: 0.8, transparent: true, opacity: 0.35 });
-  scene.add(new THREE.Points(geo, mat));
+  let W=0, H=0, DPR=1, R=0;
+  let blobs = [], parts = [], stars = [];
+  const K = 10;                                  // trail length per particle
 
-  const lGeo = new THREE.BufferGeometry();
-  const lPos = new Float32Array(N * N * 6);
-  lGeo.setAttribute('position', new THREE.BufferAttribute(lPos, 3));
-  // Light steel connections
-  const lMat = new THREE.LineBasicMaterial({ color: 0xC8D8E4, transparent: true, opacity: 0.07 });
-  const lines = new THREE.LineSegments(lGeo, lMat);
-  scene.add(lines);
-
-  let mouse = { x: 0, y: 0 };
-  window.addEventListener('mousemove', e => {
-    mouse.x = (e.clientX / window.innerWidth  - 0.5) * 40;
-    mouse.y = (e.clientY / window.innerHeight - 0.5) * -20;
-  });
-
+  function initScene() {
+    blobs = [
+      { sp:auroraA, bx:0.28, by:0.40, ax:0.16, ay:0.12, sz:1.5, s1:0.08, s2:0.11, ph:0   },
+      { sp:auroraB, bx:0.64, by:0.32, ax:0.14, ay:0.16, sz:1.3, s1:0.10, s2:0.07, ph:1.7 },
+      { sp:auroraC, bx:0.50, by:0.66, ax:0.18, ay:0.11, sz:1.6, s1:0.06, s2:0.12, ph:3.1 },
+      { sp:auroraD, bx:0.80, by:0.60, ax:0.13, ay:0.14, sz:1.2, s1:0.12, s2:0.09, ph:4.6 },
+      { sp:auroraB, bx:0.40, by:0.80, ax:0.12, ay:0.10, sz:1.0, s1:0.09, s2:0.13, ph:2.3 }
+    ];
+    const n = Math.round(Math.min(250, (W*H)/5500));
+    parts = [];
+    for (let i=0;i<n;i++) parts.push({
+      x:Math.random()*W, y:Math.random()*H, hist:[],
+      life:40+Math.random()*200, depth:Math.random(),
+      hue:(Math.random()*3)|0
+    });
+    parts.sort((a,b) => a.depth - b.depth);        // far → near (parallax)
+    const sn = Math.round(Math.min(48, (W*H)/26000));
+    stars = [];
+    for (let i=0;i<sn;i++) stars.push({
+      x:Math.random()*W, y:Math.random()*H, r:0.6+Math.random()*1.4,
+      tw:Math.random()*6.28, ts:0.5+Math.random()*1.0
+    });
+  }
   function resize() {
-    const w = window.innerWidth, h = window.innerHeight;
-    renderer.setSize(w, h);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    if (!W || !H) return;
+    canvas.width = (W*DPR)|0; canvas.height = (H*DPR)|0;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    R = Math.min(W, H);
+    initScene();
   }
   resize();
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', resize, { passive:true });
 
-  let lIdx = 0;
-  function animate() {
-    requestAnimationFrame(animate);
-    const pos = geo.attributes.position.array;
-    for (let i = 0; i < N; i++) {
-      pos[i*3]   += velocities[i*3];
-      pos[i*3+1] += velocities[i*3+1];
-      pos[i*3+2] += velocities[i*3+2];
-      if (Math.abs(pos[i*3])   > 90) velocities[i*3]   *= -1;
-      if (Math.abs(pos[i*3+1]) > 50) velocities[i*3+1] *= -1;
-      if (Math.abs(pos[i*3+2]) > 30) velocities[i*3+2] *= -1;
+  // scroll energy — the streams surge while the page is scrolling
+  let scrollV = 0, lastSY = (typeof window.scrollY === 'number' ? window.scrollY : 0);
+  window.addEventListener('scroll', function () {
+    const y = window.scrollY || 0;
+    scrollV = Math.min(1.6, scrollV + Math.abs(y - lastSY) * 0.012);
+    lastSY = y;
+  }, { passive:true });
+
+  // smooth pseudo-noise flow direction (no library)
+  function field(x, y, t) {
+    return (Math.sin(x*0.0026 + t*0.15) + Math.cos(y*0.0031 - t*0.12) + Math.sin((x+y)*0.0017 + t*0.10)) * Math.PI;
+  }
+
+  let t = 0, last = performance.now(), running = false;
+
+  function step(now) {
+    if (!running) return;
+    let dt = (now - last)/1000; last = now;
+    if (dt > 0.05) dt = 0.05;
+    t += dt;
+    scrollV *= 0.90;                               // decay scroll surge
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter';
+
+    // 1 · aurora gradient base
+    ctx.globalAlpha = 0.9;
+    for (const b of blobs) {
+      const x = (b.bx + Math.sin(t*b.s1 + b.ph)*b.ax) * W;
+      const y = (b.by + Math.cos(t*b.s2 + b.ph)*b.ay) * H;
+      const s = R * b.sz;
+      ctx.drawImage(b.sp, x - s/2, y - s/2, s, s);
     }
-    geo.attributes.position.needsUpdate = true;
 
-    lIdx = 0;
-    const lp = lGeo.attributes.position.array;
-    for (let i = 0; i < N; i++) {
-      for (let j = i+1; j < N; j++) {
-        const dx = pos[i*3]-pos[j*3], dy = pos[i*3+1]-pos[j*3+1], dz = pos[i*3+2]-pos[j*3+2];
-        if (dx*dx + dy*dy + dz*dz < 900) {
-          lp[lIdx++]=pos[i*3]; lp[lIdx++]=pos[i*3+1]; lp[lIdx++]=pos[i*3+2];
-          lp[lIdx++]=pos[j*3]; lp[lIdx++]=pos[j*3+1]; lp[lIdx++]=pos[j*3+2];
-        }
+    ctx.globalAlpha = 1;
+
+    // 2 · neural flow-field streams (subtle parallax depth, no heads)
+    ctx.lineCap = 'round';
+    const base = 41;
+    for (const q of parts) {
+      const sp = base * (0.6 + q.depth*0.8) * (1 + scrollV*1.3);
+      const a = field(q.x, q.y, t);
+      q.hist.push(q.x, q.y);
+      if (q.hist.length > K*2) { q.hist.shift(); q.hist.shift(); }
+      q.x += Math.cos(a)*sp*dt*2.2;
+      q.y += Math.sin(a)*sp*dt*2.2;
+      q.life -= dt*60;
+      if (q.life < 0 || q.x < -20 || q.x > W+20 || q.y < -20 || q.y > H+20) {
+        q.x = Math.random()*W; q.y = Math.random()*H; q.hist.length = 0;
+        q.life = 80 + Math.random()*180; continue;
+      }
+      if (q.hist.length >= 4) {
+        const al = Math.min(0.55, (0.09 + q.depth*0.17) * (1 + scrollV*0.5));
+        ctx.strokeStyle = (q.hue === 0 ? 'rgba(150,150,235,' + al.toFixed(3) + ')'
+                        :  q.hue === 1 ? 'rgba(90,110,255,'  + al.toFixed(3) + ')'
+                        :                'rgba(140,170,255,' + al.toFixed(3) + ')');
+        ctx.lineWidth = 0.6 + q.depth*1.1;
+        ctx.beginPath();
+        ctx.moveTo(q.hist[0], q.hist[1]);
+        for (let i=2;i<q.hist.length;i+=2) ctx.lineTo(q.hist[i], q.hist[i+1]);
+        ctx.lineTo(q.x, q.y);
+        ctx.stroke();
       }
     }
-    lGeo.setDrawRange(0, lIdx/3);
-    lGeo.attributes.position.needsUpdate = true;
 
-    camera.position.x += (mouse.x - camera.position.x) * 0.04;
-    camera.position.y += (mouse.y - camera.position.y) * 0.04;
-    camera.lookAt(0, 0, 0);
-    renderer.render(scene, camera);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(step);
   }
-  animate();
+
+  function start() { if (running) return; running = true; last = performance.now(); requestAnimationFrame(step); }
+  function stop()  { running = false; }
+
+  if (PAUSE_ON_REDUCED_MOTION && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    requestAnimationFrame(function (n) { last = n; running = true; step(n); running = false; });
+    return;
+  }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stop(); else start();
+  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) start(); else stop(); });
+    }, { threshold: 0 }).observe(canvas);
+  } else {
+    start();
+  }
 })();
 
 // =============================================================
@@ -228,7 +302,7 @@ function observeRevealElements() {
     const x = ((e.clientX - r.left) / r.width  - 0.5) * 2;
     const y = ((e.clientY - r.top)  / r.height - 0.5) * 2;
     card.style.transform  = 'perspective(800px) rotateY(' + (x*8) + 'deg) rotateX(' + (y*-6) + 'deg) scale(1.02)';
-    card.style.boxShadow  = (x*-12) + 'px ' + (y*-8) + 'px 40px rgba(30,144,255,0.15)';
+    card.style.boxShadow  = (x*-12) + 'px ' + (y*-8) + 'px 40px rgba(110,140,255,0.15)';
   });
   card.addEventListener('mouseleave', function() { card.style.transform = ''; card.style.boxShadow = ''; });
 })();
@@ -274,11 +348,11 @@ function initHeroEffects() {
   laser.addEventListener('animationend', function() { laser.remove(); });
   hero.appendChild(laser);
 
-  // Ambient blue orbs — logo palette colours
+  // Ambient orbs — blue palette colours
   const orbs = [
-    { cls: 'orb-drift-1', s: 'width:500px;height:500px;background:radial-gradient(circle,rgba(30,144,255,0.12) 0%,transparent 70%);top:-120px;left:-180px;' },
-    { cls: 'orb-drift-2', s: 'width:400px;height:400px;background:radial-gradient(circle,rgba(59,191,255,0.09) 0%,transparent 70%);top:30%;right:-120px;' },
-    { cls: 'orb-drift-3', s: 'width:380px;height:380px;background:radial-gradient(circle,rgba(21,101,192,0.08) 0%,transparent 70%);bottom:-60px;left:35%;' }
+    { cls: 'orb-drift-1', s: 'width:500px;height:500px;background:radial-gradient(circle,rgba(110,140,255,0.12) 0%,transparent 70%);top:-120px;left:-180px;' },
+    { cls: 'orb-drift-2', s: 'width:400px;height:400px;background:radial-gradient(circle,rgba(138,176,255,0.09) 0%,transparent 70%);top:30%;right:-120px;' },
+    { cls: 'orb-drift-3', s: 'width:380px;height:380px;background:radial-gradient(circle,rgba(59,47,176,0.08) 0%,transparent 70%);bottom:-60px;left:35%;' }
   ];
   orbs.forEach(function(d) {
     const el = document.createElement('div');

@@ -22,17 +22,17 @@
   height: 1px;
   background: linear-gradient(
     90deg,
-    transparent         0%,
-    rgba(91,200,255,.3) 10%,
-    #3BBFFF             30%,
-    #1E90FF             50%,
-    #3BBFFF             70%,
-    rgba(91,200,255,.3) 90%,
-    transparent         100%
+    transparent          0%,
+    rgba(138,176,255,.3) 10%,
+    #8AB0FF              30%,
+    #5B6BFF              50%,
+    #8AB0FF              70%,
+    rgba(138,176,255,.3) 90%,
+    transparent          100%
   );
   box-shadow:
-    0 0  6px 2px rgba(30,144,255,0.45),
-    0 0 20px 4px rgba(59,191,255,0.18);
+    0 0  6px 2px rgba(110,140,255,0.45),
+    0 0 20px 4px rgba(138,176,255,0.18);
   animation: laserSweep 1.5s cubic-bezier(0.22,1,0.36,1) 0.05s forwards;
   pointer-events: none;
   z-index: 5;
@@ -63,11 +63,10 @@
 
 .gradient-text {
   background: linear-gradient(
-    135deg,
-    #5BC8FF 0%,
-    #1E90FF 30%,
-    #1565C0 60%,
-    #3BBFFF 100%
+    120deg,
+    #8AB0FF 0%,
+    #5B6BFF 50%,
+    #3B2FB0 100%
   );
   background-size: 200% 200%;
   -webkit-background-clip: text;
